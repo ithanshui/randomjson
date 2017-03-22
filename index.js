@@ -20,9 +20,9 @@ var orTxtReg = /\|/;
 // Quantifier regexp
 var quanReg = /(\{(\d+)(,(\d*))?\})?/;
 // keyReg
-var keyReg = new RegExp('(' + typeKeys.join('|') + ')(?:\\{(\d+)(,(\d*))?\\})?');
+var keyReg = new RegExp('(' + typeKeys.join('|') + ')(?:\\{(\\d+)(,(\\d*))?\\})?');
 // optionalReg
-var optionalReg = new RegExp('(' + '\\[(.*?)\\]' + ')(?:\\{(\d+)(,(\d*))?\\})?');
+var optionalReg = new RegExp('(' + '\\[(.*?)\\]' + ')(?:\\{(\\d+)(,(\\d*))?\\})?');
 // array Quantifier regexp
 var arrQuanReg = /^(.*)\{@(?:\{(\d+)(,(\d*))?\})?\}/;
 
@@ -95,23 +95,25 @@ function parseCharactor(keyCha, valueCha, upperObj) {
     }
 }
 function handleTxt(synTxt) {
-    if (orTxtReg.test(synTxt)) {
-        orTxt(synTxt);
+    var orMatch = synTxt.match(orTxtReg);
+    if (orMatch !== null) {
+        var orArr = synTxt.split('|');
+        var orArrLen = orArr.length;
+        var randomIndex = Math.floor(Math.random() * orArrLen);
+        synTxt = orArr[randomIndex];
+        console.log(synTxt);
+    }
+    var keyRes = synTxt.match(keyReg);
+    var optionalRes = synTxt.match(optionalReg);
+    if (keyRes !== null) {
+        return randomByType(synTxt, keyRes[1], keyRes[2], keyRes[3], keyRes[4]);
+    }
+    else if (optionalRes !== null) {
+        return randomByType(synTxt, keyRes[1], keyRes[2], keyRes[3], keyRes[4]);
     }
     else {
-        var keyRes = synTxt.match(keyReg);
-        var optionalRes = synTxt.match(optionalReg);
-        if (keyRes !== null) {
-            return randomByType(synTxt, keyRes[1], keyRes[2], keyRes[3], keyRes[4]);
-        }
+        return synTxt;
     }
-}
-function getTxtByKey(keyType, fNumber, sNumber, tNumber) {
-
-}
-// or txt
-function orTxt(synTxt) {
-
 }
 function randomByType(synTxt, keyType, fNumber, sNumber, tNumber) {
     if (keyType === 'number') {

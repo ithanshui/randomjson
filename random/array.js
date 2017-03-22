@@ -5,10 +5,7 @@ var generalTNumber = 10;
 function arrayRandom(arr, fNumber, sNumber, tNumber) {
 	var count;
 	var newArr;
-	console.log(arr);
 	count = randomCount(fNumber, sNumber, tNumber, generalFNumber, generalTNumber, maxBits);
-	console.log('count');
-	console.log(count);
 	newArr = new Array(count);
 	for (var i = 0; i < count; i++) {
 		newArr[i] = arr[0]; 
