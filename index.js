@@ -1,7 +1,8 @@
-var randomNumber = require('random/number');
-var randomString = require('random/stirng');
-var randomNull = require('random/null');
-var randomBoolean = require('random/boolean');
+var randomNumber = require('./random/number');
+var randomString = require('./random/string');
+var randomNull = require('./random/null');
+var randomBoolean = require('./random/boolean');
+var randomArray = require('./random/array');
 
 // json type
 var typeJson = ['number', 'string', 'null', 'boolean', 'array', 'object'];
@@ -22,19 +23,30 @@ var quanReg = /(\{(\d+)(,(\d*))?\})?/;
 var keyReg = new RegExp('(' + typeKeys.join('|') + ')(?:\\{(\d+)(,(\d*))?\\})?');
 // optionalReg
 var optionalReg = new RegExp('(' + '\\[(.*?)\\]' + ')(?:\\{(\d+)(,(\d*))?\\})?');
+// array Quantifier regexp
+var arrQuanReg = /^(.*)\{@(?:\{(\d+)(,(\d*))?\})?\}/;
 
 var randomJson = {};
 var syntaxSignReg = /\{@(.*)}/;
 // loop json
 function main(modelJson) {
-    readObject(modelJson, randomJson);
+    readObject('', modelJson, randomJson);
+    return randomJson;
 }
 // read object
-function readObject(obj, upperObj) {
+function readObject(pro, obj, upperObj) {
     for (var p in obj) {
         if (getJsonType(obj[p]) === 'array') {
-            upperObj[p] = [];
-            readArray(p, obj[p], upperObj[p]);
+            var syntaxMatch = p.match(arrQuanReg);
+            var proStr = '';
+            if (syntaxMatch !== null) {
+                proStr = syntaxMatch[1];
+            }
+            else {
+                proStr = p;
+            }
+            upperObj[proStr] = [];
+            readArray(p, obj[p], upperObj[proStr]);
         }
         else if (getJsonType(obj[p]) === 'object') {
             upperObj[p] = {};
@@ -47,13 +59,18 @@ function readObject(obj, upperObj) {
 }
 // read array
 function readArray(key, arr, upperObj) {
+    var syntaxMatch = key.match(arrQuanReg);
+    if (syntaxMatch !== null) {
+        arr = randomArray(arr, syntaxMatch[2], syntaxMatch[3], syntaxMatch[4]);
+        console.log(arr);
+    }
     arr.forEach(function (item, index) {
         if (getJsonType(item) === 'object') {
             upperObj[index] = {};
+            console.log(upperObj[index]);
             readObject(index, item, upperObj[index]);
         }
         else if (getJsonType(item) === 'array') {
-            upperObj[index] = [];
             readArray(index, item, upperObj[index]);
         }
         else {
@@ -63,11 +80,15 @@ function readArray(key, arr, upperObj) {
 }
 // parse charactors
 function parseCharactor(keyCha, valueCha, upperObj) {
+    if (getJsonType(valueCha) === 'null' || getJsonType(valueCha) === 'number' || getJsonType(valueCha) === 'boolean') {
+        upperObj[keyCha] = valueCha;
+        return;
+    }
     var syntaxMatch = valueCha.match(syntaxSignReg);
     var synTxt= '';
     if (syntaxMatch !== null) {
         synTxt = syntaxMatch[1];
-        handleTxt(synTxt);
+        upperObj[keyCha] = handleTxt(synTxt);
     }
     else {
         upperObj[keyCha] = valueCha;
@@ -110,7 +131,7 @@ function randomByType(synTxt, keyType, fNumber, sNumber, tNumber) {
     }
 }
 // get json type
-getJsonType(arg1) {
+function getJsonType(arg1) {
     if (arg1 === null) {
         return 'null';
     }
