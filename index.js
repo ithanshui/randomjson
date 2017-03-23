@@ -4,13 +4,15 @@ var randomNull = require('./random/null');
 var randomBoolean = require('./random/boolean');
 var randomArray = require('./random/array');
 
+var randomChinese = require('./random/chinese');
+
 // json type
 var typeJson = ['number', 'string', 'null', 'boolean', 'array', 'object'];
 // custom type
 var customType = ['chinese', 'float', 'image', 'url', 'email', 'date', 'tel'];
 // Syntax Character
 // var syntaxCharacter = ['*', '+', '?', '[', ']', ',', '{@', '{', '}', '|', '-'];
-var syntaxCharacter = ['\\*', '\\+', '\\?', '\\[', '\\]', ',', '{@', '\\{', '\\}', '\\|', '\\-'];
+var syntaxCharacter = ['\\*', '\\+', '\\?', '\\[', '\\]', ',', '<@', '>', '\\{', '\\}', '\\|', '\\-'];
 
 var typeKeys = typeJson.concat(customType);
 // syntaxKeys
@@ -24,10 +26,10 @@ var keyReg = new RegExp('(' + typeKeys.join('|') + ')(?:\\{(\\d+)(,(\\d*))?\\})?
 // optionalReg
 var optionalReg = new RegExp('(' + '\\[(.*?)\\]' + ')(?:\\{(\\d+)(,(\\d*))?\\})?');
 // array Quantifier regexp
-var arrQuanReg = /^(.*)\{@(?:\{(\d+)(,(\d*))?\})?\}/;
+var arrQuanReg = /^(.*)<@(?:\{(\d+)(,(\d*))?\})?>/;
 
 var randomJson = {};
-var syntaxSignReg = /\{@(.*)}/;
+var syntaxSignReg = /<@(.*?)>/g;
 // loop json
 function main(modelJson) {
     readObject('', modelJson, randomJson);
@@ -62,12 +64,10 @@ function readArray(key, arr, upperObj) {
     var syntaxMatch = key.match(arrQuanReg);
     if (syntaxMatch !== null) {
         arr = randomArray(arr, syntaxMatch[2], syntaxMatch[3], syntaxMatch[4]);
-        console.log(arr);
     }
     arr.forEach(function (item, index) {
         if (getJsonType(item) === 'object') {
             upperObj[index] = {};
-            console.log(upperObj[index]);
             readObject(index, item, upperObj[index]);
         }
         else if (getJsonType(item) === 'array') {
@@ -84,31 +84,33 @@ function parseCharactor(keyCha, valueCha, upperObj) {
         upperObj[keyCha] = valueCha;
         return;
     }
-    var syntaxMatch = valueCha.match(syntaxSignReg);
-    var synTxt= '';
-    if (syntaxMatch !== null) {
-        synTxt = syntaxMatch[1];
-        upperObj[keyCha] = handleTxt(synTxt);
+    // var syntaxMatch = valueCha.match(syntaxSignReg);
+    var syntaxExec = syntaxSignReg.exec(valueCha);
+    var copyValue = valueCha;
+    var synTxt = '';
+    var isSyn = false;
+    while (syntaxExec) {
+        isSyn = true;
+        synTxt = syntaxExec[1];
+        copyValue = copyValue.replace(syntaxExec[0], handleTxt(synTxt));
+        syntaxExec = syntaxSignReg.exec(valueCha);
     }
-    else {
+    upperObj[keyCha] = handleTxt(copyValue);
+    if (!isSyn) {
         upperObj[keyCha] = valueCha;
     }
 }
 function handleTxt(synTxt) {
     var orMatch = synTxt.match(orTxtReg);
     if (orMatch !== null) {
+        console.log(synTxt);
         var orArr = synTxt.split('|');
         var orArrLen = orArr.length;
         var randomIndex = Math.floor(Math.random() * orArrLen);
         synTxt = orArr[randomIndex];
-        console.log(synTxt);
     }
     var keyRes = synTxt.match(keyReg);
-    var optionalRes = synTxt.match(optionalReg);
     if (keyRes !== null) {
-        return randomByType(synTxt, keyRes[1], keyRes[2], keyRes[3], keyRes[4]);
-    }
-    else if (optionalRes !== null) {
         return randomByType(synTxt, keyRes[1], keyRes[2], keyRes[3], keyRes[4]);
     }
     else {
@@ -127,6 +129,9 @@ function randomByType(synTxt, keyType, fNumber, sNumber, tNumber) {
     }
     else if (keyType === 'null') {
         return randomNull();
+    }
+    else if (keyType === 'chinese') {
+        return randomChinese();
     }
     else {
         return synTxt;
