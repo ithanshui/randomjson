@@ -92,10 +92,15 @@ function parseCharactor(keyCha, valueCha, upperObj) {
     while (syntaxExec) {
         isSyn = true;
         synTxt = syntaxExec[1];
-        copyValue = copyValue.replace(syntaxExec[0], handleTxt(synTxt));
+        if (RegExp.rightContext === '' && RegExp.leftContext === '') {
+            copyValue = handleTxt(synTxt);
+        }
+        else {
+            copyValue = copyValue.replace(syntaxExec[0], handleTxt(synTxt));
+        }  
         syntaxExec = syntaxSignReg.exec(valueCha);
     }
-    upperObj[keyCha] = handleTxt(copyValue);
+    upperObj[keyCha] = copyValue; 
     if (!isSyn) {
         upperObj[keyCha] = valueCha;
     }
