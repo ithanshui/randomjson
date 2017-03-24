@@ -1,6 +1,6 @@
 {
   "name": "randomjson",
-  "version": "1.0.0-beta4",
+  "version": "1.0.0-beta5",
   "description": "Generate json randomly according to the conditions",
   "main": "index.js",
   "scripts": {
