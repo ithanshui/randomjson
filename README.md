@@ -1,9 +1,15 @@
 # randomjson
+
 Generate json randomly according to the conditions
+
 ## how to use
+
 ### install
+
     npm install randomjson
+
 ### use
+
 ```javascript
     var randomjson = require('randomjson');
     
@@ -87,10 +93,13 @@ Generate json randomly according to the conditions
 ```    
     
 ## Lexical
+
     Starting with <@, ending with>, the middle content is randomjson's lexical  
+
 ## conditions
 
 ### data type
+
     "<@number>": the data type is number
     
     "<@string>": the data type is string
@@ -109,7 +118,9 @@ Generate json randomly according to the conditions
     {number}: A total of number
     
 ### Multiple options
-    You can use "|" to separate multiple options, random values are one of them#
+
+    You can use "|" to separate multiple options, random values are one of them
+
 ### Length description
     Non-array, the length of the value string, for example: "ret": "<@number {4}>"
     
@@ -123,11 +134,17 @@ Generate json randomly according to the conditions
 ```   
     
 # randomjson
+
 根据条件生成json对应的随机json
+
 ## 如何使用
+
 ### 安装
+
     npm install randomjson
+
 ### 用法
+
 ```javascript
     // 引用包
     var randomjson = require('randomjson');
@@ -213,10 +230,13 @@ Generate json randomly according to the conditions
 ```    
     
 ## Lexical
-    以<@开始，以>结束，中间内容是randomjson的词法  
+
+    以<@开始，以>结束，中间内容是randomjson的词法
+   
 ## conditions
 
 ### data type
+
     "<@number>": number类型
     
     "<@string>": string类型
@@ -228,6 +248,7 @@ Generate json randomly according to the conditions
     "<@chinese>": 中文字符串
     
 ### quantifier
+
     {minNumber, maxNumber}: minNumber到maxNumber个
     
     {minNumber,}: 最少minNumber
@@ -235,8 +256,11 @@ Generate json randomly according to the conditions
     {number}: number个
     
 ### Multiple options
+
     你可以使用“|” 要分离多个选项，随机值是其中之一
+
 ### Length description
+
     值为非数组时，长度在value字符串里，例如："ret": "<@number{4}>"
     
     值为数组时，长度在key里，例如：
