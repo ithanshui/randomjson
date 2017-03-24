@@ -92,24 +92,35 @@ Generate json randomly according to the conditions
 
 ### data type
     "<@number>": the data type is number
+    
     "<@string>": the data type is string
+    
     "<@null>": the data type is null
+    
     "<@boolean>": the data type is boolean
+    
     "<@chinese>": chinese string
+    
 ### quantifier
     {minNumber, maxNumber}: At least minNumber, up to maxNumber
+    
     {minNumber,}: At least minNumber
+    
     {number}: A total of number
+    
 ### Multiple options
     You can use "|" to separate multiple options, random values are one of them#
 ### Length description
     Non-array, the length of the value string, for example: "ret": "<@number {4}>"
+    
     When the value is an array, the length is in the key, for example:
+```javascript    
              "P11<@{2,5}>": [{
                  "P8": "12312",
                  "P9": ["<@string{4,7}>"],
                  "P10": "<@string>"
              }]
+```   
     
 # randomjson
 根据条件生成json对应的随机json
@@ -207,23 +218,33 @@ Generate json randomly according to the conditions
 
 ### data type
     "<@number>": number类型
+    
     "<@string>": string类型
+    
     "<@null>": null
+    
     "<@boolean>": boolean类型
+    
     "<@chinese>": 中文字符串
+    
 ### quantifier
     {minNumber, maxNumber}: minNumber到maxNumber个
+    
     {minNumber,}: 最少minNumber
+    
     {number}: number个
+    
 ### Multiple options
     你可以使用“|” 要分离多个选项，随机值是其中之一
 ### Length description
     值为非数组时，长度在value字符串里，例如："ret": "<@number{4}>"
+    
     值为数组时，长度在key里，例如：
+```javascript      
             "p11<@{2,5}>": [{
                 "p8": "12312",
                 "p9": ["<@string{4,7}>"],
                 "p10": "<@string>"
             }]
-            
+```            
 ## 目前项目还在开发中，有兴趣可以加qq群：  533916703
