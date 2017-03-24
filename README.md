@@ -96,7 +96,7 @@ Generate json randomly according to the conditions
 
     Starting with <@, ending with>, the middle content is randomjson's lexical  
 
-## conditions
+## Lexical definition
 
 ### data type
 
@@ -229,13 +229,13 @@ Generate json randomly according to the conditions
     
 ```    
     
-## Lexical
+## 词法
 
     以<@开始，以>结束，中间内容是randomjson的词法
-   
-## conditions
 
-### data type
+## 模型定义
+
+### 数据类型
 
     "<@number>": number类型
     
@@ -247,7 +247,7 @@ Generate json randomly according to the conditions
     
     "<@chinese>": 中文字符串
     
-### quantifier
+### 量词
 
     {minNumber, maxNumber}: minNumber到maxNumber个
     
@@ -255,11 +255,11 @@ Generate json randomly according to the conditions
     
     {number}: number个
     
-### Multiple options
+### 随机生成其中之一
 
     你可以使用“|” 要分离多个选项，随机值是其中之一
 
-### Length description
+### 量词定义注意点
 
     值为非数组时，长度在value字符串里，例如："ret": "<@number{4}>"
     
