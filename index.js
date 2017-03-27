@@ -136,7 +136,7 @@ function randomByType(synTxt, keyType, fNumber, sNumber, tNumber) {
         return randomNull();
     }
     else if (keyType === 'chinese') {
-        return randomChinese();
+        return randomChinese(fNumber, sNumber, tNumber);
     }
     else {
         return synTxt;

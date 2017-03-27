@@ -1,6 +1,6 @@
 {
   "name": "randomjson",
-  "version": "1.0.0-beta7",
+  "version": "1.0.1",
   "description": "Generate json randomly according to the conditions",
   "main": "index.js",
   "scripts": {
@@ -24,5 +24,6 @@
   },
   "homepage": "https://github.com/zhoushengmufc/randomjson#readme",
   "dependencies": {
+    "gm": "~1.23.0"
   }
 }
