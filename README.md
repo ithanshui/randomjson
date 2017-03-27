@@ -271,4 +271,4 @@ Generate json randomly according to the conditions
                 "p10": "<@string>"
             }]
 ```            
-## 目前项目还在开发中，有兴趣可以加qq群：  533916703
+## 目前项目还在继续开发中
