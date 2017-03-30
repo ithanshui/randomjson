@@ -28,10 +28,10 @@ var optionalReg = new RegExp('(' + '\\[(.*?)\\]' + ')(?:\\{(\\d+)(,(\\d*))?\\})?
 // array Quantifier regexp
 var arrQuanReg = /^(.*)<@(?:\{(\d+)(,(\d*))?\})?>/;
 
-var randomJson = {};
 var syntaxSignReg = /<@(.*?)>/g;
 // loop json
 function main(modelJson) {
+    var randomJson = {};
     readObject('', modelJson, randomJson);
     return randomJson;
 }
